@@ -10,10 +10,20 @@
           </span>
         </p>
       </div>
-      <a class="panel-block is-active">bulma </a>
-      <a class="panel-block">marksheet </a>
-      <a class="panel-block">minireset.css </a>
-      <a class="panel-block">jgthms.github.io </a>
+      <div tabindex="-1" role="listbox">
+        <div class="panel-block is-active" tabindex="0" aria-selected="true">
+          bulma
+        </div>
+        <div class="panel-block" tabindex="0" aria-selected="false">
+          marksheet
+        </div>
+        <div class="panel-block" tabindex="0" aria-selected="false">
+          minireset.css
+        </div>
+        <div class="panel-block" tabindex="0" aria-selected="false">
+          jgthms.github.io
+        </div>
+      </div>
     </div>
   </div>
 </template>
