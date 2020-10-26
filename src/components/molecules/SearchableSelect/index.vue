@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button class="button">Button</button>
+    <button class="button" aria-haspopup="listbox">Button</button>
     <div class="panel is-primary">
       <div class="panel-block">
         <p class="control has-icons-left">
@@ -10,26 +10,42 @@
           </span>
         </p>
       </div>
-      <div tabindex="-1" role="listbox">
-        <div class="panel-block is-active" tabindex="0" aria-selected="true">
-          bulma
-        </div>
-        <div class="panel-block" tabindex="0" aria-selected="false">
-          marksheet
-        </div>
-        <div class="panel-block" tabindex="0" aria-selected="false">
-          minireset.css
-        </div>
-        <div class="panel-block" tabindex="0" aria-selected="false">
-          jgthms.github.io
-        </div>
-      </div>
+      <ul class="menu-list" tabindex="-1" role="listbox">
+        <a
+          v-for="(option, index) in options"
+          :key="`option-${index}`"
+          class="panel-block"
+          :class="[{ 'is-active': option.value === value }, 'panel-block']"
+          tabindex="0"
+          role="option"
+          aria-selected="true"
+          @click="() => onClick(option.value)"
+          @keypress="() => onClick(option.value)"
+        >
+          {{ option.label }}
+        </a>
+      </ul>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
-export default defineComponent({});
+type Option = {
+  value: string;
+  label: string;
+};
+
+export default defineComponent({
+  props: {
+    options: { type: Array as PropType<Option[]>, required: true },
+    value: { type: String, required: true },
+    onClick: {
+      // eslint-disable-next-line no-unused-vars
+      type: Function as PropType<(value: string) => void>,
+      required: true,
+    },
+  },
+});
 </script>
