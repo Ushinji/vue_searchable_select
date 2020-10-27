@@ -4,7 +4,12 @@
     <div v-if="active" class="panel is-primary">
       <div class="panel-block">
         <p class="control has-icons-left">
-          <input class="input is-primary" type="text" placeholder="Search" />
+          <input
+            v-model="filterText"
+            class="input is-primary"
+            type="text"
+            placeholder="Search"
+          />
           <span class="icon is-left">
             <i class="material-icons">search</i>
           </span>
@@ -12,7 +17,7 @@
       </div>
       <ul class="menu-list" tabindex="-1" role="listbox">
         <a
-          v-for="(option, index) in options"
+          v-for="(option, index) in filteredOptions"
           :key="`option-${index}`"
           class="panel-block"
           :class="[{ 'is-active': option.value === value }, 'panel-block']"
@@ -33,6 +38,7 @@
 import { defineComponent, PropType, ref } from 'vue';
 import useClickAway from '@/utils/useClickAway';
 import useBool from '@/utils/useBool';
+import useFilter from '@/utils/useFilter';
 
 type Option = {
   value: string;
@@ -54,13 +60,27 @@ export default defineComponent({
     const refElement = ref<HTMLElement>();
     useClickAway(refElement, close);
 
+    const { filterText, filteredItems: filteredOptions } = useFilter<Option>(
+      props.options,
+      (item, word) => {
+        return !!item.label.toLowerCase().match(word.toLowerCase());
+      }
+    );
+
     const handleClick = (value: string) => {
       const { onClick } = props;
       onClick(value);
       close();
     };
 
-    return { refElement, active, open, handleClick };
+    return {
+      refElement,
+      active,
+      open,
+      handleClick,
+      filterText,
+      filteredOptions,
+    };
   },
 });
 </script>
