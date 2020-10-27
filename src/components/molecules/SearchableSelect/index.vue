@@ -1,6 +1,15 @@
 <template>
-  <div ref="refElement">
-    <button class="button" aria-haspopup="listbox" @click="open">Button</button>
+  <div ref="refElement" class="searchable-select">
+    <button
+      class="button searchable-select--button"
+      aria-haspopup="listbox"
+      @click="open"
+    >
+      <span>{{ value }}</span>
+      <span class="icon is-left">
+        <i class="material-icons">keyboard_arrow_down</i>
+      </span>
+    </button>
     <div v-if="active" class="panel is-primary">
       <div class="panel-block">
         <p class="control has-icons-left">
@@ -15,21 +24,23 @@
           </span>
         </p>
       </div>
-      <ul class="menu-list" tabindex="-1" role="listbox">
-        <a
-          v-for="(option, index) in filteredOptions"
-          :key="`option-${index}`"
-          class="panel-block"
-          :class="[{ 'is-active': option.value === value }, 'panel-block']"
-          tabindex="0"
-          role="option"
-          aria-selected="true"
-          @click="() => handleClick(option.value)"
-          @keypress="() => handleClick(option.value)"
-        >
-          {{ option.label }}
-        </a>
-      </ul>
+      <div class="menu">
+        <ul class="menu-list" tabindex="-1" role="listbox">
+          <li
+            v-for="(option, index) in filteredOptions"
+            :key="`option-${index}`"
+            tabindex="0"
+            role="option"
+            aria-selected="true"
+            @click="() => handleClick(option.value)"
+            @keypress="() => handleClick(option.value)"
+          >
+            <a :class="{ 'is-active': option.value === value }">
+              {{ option.label }}
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -84,3 +95,15 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.searchable-select {
+  width: 320px;
+
+  &--button {
+    display: flex;
+    justify-content: space-between;
+    width: 100px;
+  }
+}
+</style>
