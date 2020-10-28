@@ -12,17 +12,7 @@
     </button>
     <div v-if="active" class="panel is-primary">
       <div class="panel-block">
-        <p class="control has-icons-left">
-          <input
-            v-model="filterText"
-            class="input is-primary"
-            type="text"
-            placeholder="Search"
-          />
-          <span class="icon is-left">
-            <i class="material-icons">search</i>
-          </span>
-        </p>
+        <FilterField v-model="filterText" />
       </div>
       <div class="menu">
         <ul class="menu-list" tabindex="-1" role="listbox">
@@ -50,6 +40,7 @@ import { defineComponent, PropType, ref } from 'vue';
 import useClickAway from '@/utils/useClickAway';
 import useBool from '@/utils/useBool';
 import useFilter from '@/utils/useFilter';
+import FilterField from './FilterField/index.vue';
 
 type Option = {
   value: string;
@@ -57,6 +48,9 @@ type Option = {
 };
 
 export default defineComponent({
+  components: {
+    FilterField,
+  },
   props: {
     options: { type: Array as PropType<Option[]>, required: true },
     value: { type: String, required: true },
