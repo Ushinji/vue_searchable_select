@@ -1,11 +1,11 @@
 <template>
   <p class="control has-icons-left">
     <input
-      :value="value"
+      :input="value"
       class="input is-primary"
       type="text"
       placeholder="Search"
-      @onInput="onInput"
+      @input="updateValue"
     />
     <span class="icon is-left">
       <i class="material-icons">search</i>
@@ -14,20 +14,21 @@
 </template>
 
 <script lang="ts">
+// Memo: Ref: Vue 3.0:v-model https://github.com/vuejs/rfcs/blob/master/active-rfcs/0011-v-model-api-change.md#detailed-design
 import { defineComponent, SetupContext } from 'vue';
 
 export default defineComponent({
   props: {
     value: { type: String, required: true },
   },
-  emits: ['input'],
+  emits: ['update:value'],
   setup(_, context: SetupContext) {
-    const onInput = (event: InputEvent) => {
+    const updateValue = (event: InputEvent) => {
       if (event.target instanceof HTMLInputElement) {
-        context.emit('input', event.target.value);
+        context.emit('update:value', event.target.value);
       }
     };
-    return { onInput };
+    return { updateValue };
   },
 });
 </script>

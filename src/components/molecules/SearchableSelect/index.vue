@@ -12,7 +12,7 @@
     </button>
     <div v-if="active" class="panel is-primary">
       <div class="panel-block">
-        <FilterField v-model="filterText" />
+        <FilterField v-model:value="filterText" />
       </div>
       <div class="menu">
         <ul class="menu-list" tabindex="-1" role="listbox">
