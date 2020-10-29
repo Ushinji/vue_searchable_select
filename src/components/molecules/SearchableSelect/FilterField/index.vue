@@ -16,7 +16,8 @@
 
 <script lang="ts">
 // Memo: Ref: Vue 3.0:v-model https://github.com/vuejs/rfcs/blob/master/active-rfcs/0011-v-model-api-change.md#detailed-design
-import { defineComponent, SetupContext, ref, onMounted } from 'vue';
+import { defineComponent, SetupContext, ref } from 'vue';
+import useAutoFocus from '@/utils/useAutoFocus';
 
 export default defineComponent({
   props: {
@@ -31,12 +32,8 @@ export default defineComponent({
     };
 
     const refElement = ref<HTMLElement>();
-    onMounted(() => {
-      const element = refElement.value;
-      if (element !== undefined) {
-        element.focus();
-      }
-    });
+    useAutoFocus(refElement);
+
     return { updateValue, refElement };
   },
 });
