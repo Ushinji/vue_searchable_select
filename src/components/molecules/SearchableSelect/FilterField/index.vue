@@ -1,6 +1,7 @@
 <template>
   <p class="control has-icons-left">
     <input
+      ref="refElement"
       :input="value"
       class="input is-primary"
       type="text"
@@ -15,7 +16,7 @@
 
 <script lang="ts">
 // Memo: Ref: Vue 3.0:v-model https://github.com/vuejs/rfcs/blob/master/active-rfcs/0011-v-model-api-change.md#detailed-design
-import { defineComponent, SetupContext } from 'vue';
+import { defineComponent, SetupContext, ref, onMounted } from 'vue';
 
 export default defineComponent({
   props: {
@@ -28,7 +29,15 @@ export default defineComponent({
         context.emit('update:value', event.target.value);
       }
     };
-    return { updateValue };
+
+    const refElement = ref<HTMLElement>();
+    onMounted(() => {
+      const element = refElement.value;
+      if (element !== undefined) {
+        element.focus();
+      }
+    });
+    return { updateValue, refElement };
   },
 });
 </script>
