@@ -16,7 +16,7 @@
 
 <script lang="ts">
 // Memo: Ref: Vue 3.0:v-model https://github.com/vuejs/rfcs/blob/master/active-rfcs/0011-v-model-api-change.md#detailed-design
-import { defineComponent, SetupContext, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import useAutoFocus from '@/utils/useAutoFocus';
 
 export default defineComponent({
@@ -24,7 +24,7 @@ export default defineComponent({
     value: { type: String, required: true },
   },
   emits: ['update:value'],
-  setup(_, context: SetupContext) {
+  setup(_, context) {
     const updateValue = (event: InputEvent) => {
       if (event.target instanceof HTMLInputElement) {
         context.emit('update:value', event.target.value);
