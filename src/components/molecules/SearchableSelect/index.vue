@@ -75,6 +75,7 @@ export default defineComponent({
     const handleClick = (value: string) => {
       const { onClick } = props;
       onClick(value);
+      filterText.value = '';
       close();
     };
 
